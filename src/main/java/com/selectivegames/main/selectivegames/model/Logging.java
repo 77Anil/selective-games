@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,8 +28,12 @@ public class Logging {
 	private Long id;
 
 	private Long ani;
+
+	@Enumerated(EnumType.STRING)
 	private LogType type;
 	private String status;
+
+	@Column(columnDefinition = "text")
 	private String data;
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

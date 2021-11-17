@@ -2,7 +2,7 @@
  * 
  */
 
-var checkSubScriptionUrl = "/v1/subscribe/";
+var checkSubScriptionUrl = "/subscribe/";
 const callAjaxWithJsonPost = async (url,json, callback) => {
 	console.log(json)
 	$.ajax({
@@ -24,7 +24,7 @@ const checkSub = async (ani,service) => {
 }
 
 const processSubResponse = (data,json) => {
-	console.log(data);
+	console.log("REsponse ",	data);
 	if(data != ''){
 		window.location.href = "login/"+data.id;
 	}

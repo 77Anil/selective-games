@@ -2,6 +2,7 @@ package com.selectivegames.main.selectivegames.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,8 @@ public class Subscription {
 	private String m_act;
 	private String m_deact;
 	private String lang;
-	private String service_type;
+	@Column(name = "service_type")
+	private String service;
 	private String STATUS;
 	private String charging_date;
 	private LocalDateTime billing_date;

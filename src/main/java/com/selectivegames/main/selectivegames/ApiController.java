@@ -17,7 +17,8 @@ import com.selectivegames.main.selectivegames.model.Subscription;
 import com.selectivegames.main.selectivegames.service.GameService;
 
 @RestController
-@RequestMapping("/v1/")
+@RequestMapping("")
+
 public class ApiController {
 
 	@Autowired
@@ -33,7 +34,7 @@ public class ApiController {
 		return gameService.getCategoryDetails(id);
 	}
 
-	@GetMapping("CallBack")
+	@GetMapping("/CallBack")
 	public DLR callbackReciever(DLR dlr) {
 		return gameService.addToDLR(dlr);
 	}

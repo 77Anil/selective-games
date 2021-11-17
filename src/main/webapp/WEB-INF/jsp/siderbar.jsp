@@ -2,8 +2,18 @@
 <div class="sidebar-menu-scroll">
 	<a class="current-menu" href="/"><img
 		src="http://gameninja.in/html/icons/home.png" /><em>Home</em></a>
+	
+	<c:if test="${sessionScope.user == null}">
+				<script>
+					window.location.href = "/landing";
+				</script>
+		</c:if>
 
 	<c:forEach var="item" items="${cats}">
-		<a href="/cat/${item.id}"><img src="${item.icon }" /><em>${item.name }</em></a>
+		<a href="/cat/${item.id}"><img src="${item.icon }" /><em>${item.name }
+		
+		</em>
+		</a>
 	</c:forEach>
 </div>
+

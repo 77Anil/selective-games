@@ -36,5 +36,7 @@ public class DLR {
 	@Column(columnDefinition = "integer default 0")
 	private int processStatus;
 	private LocalDateTime datetime;
-
+	private String type;
+	private String service;
+	private String m_act;
 }

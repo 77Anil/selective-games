@@ -75,8 +75,26 @@ public class GameService {
 	}
 
 	public DLR addToDLR(DLR dlr) {
-		dlr.setAni(commonService.parseMSIDN(dlr.getTelNo()));
+		Long parseMSIDN = commonService.parseMSIDN(dlr.getTelNo());
+		dlr.setAni(parseMSIDN);
+
+		dlr.setAni(parseMSIDN);
 		dlr.setDatetime(LocalDateTime.now());
+		String serviceName = serviceInfoRepo.findByClientName(dlr.getClient()).getServiceName();
+		dlr.setService(serviceName);
+		Subscription findByServiceTypeAndAni = subRepo.findByServiceAndAni(serviceName, parseMSIDN);
+		if (findByServiceTypeAndAni != null) {
+			dlr.setType("ren");
+		} else {
+			dlr.setType("sub");
+		}
+		if (dlr.getMt().equalsIgnoreCase("tnUnsubscribe")) {
+			dlr.setType("unsub");
+			dlr.setStatusMessage("UNSUBSCRIBED");
+		}
+		dlr.setM_act("web");
+		addToLogger(commonService.objToJson(dlr), dlr.getStatusMessage(), dlr.getAni(), LogType.Callback);
+
 		return dlrRepo.save(dlr);
 	}
 

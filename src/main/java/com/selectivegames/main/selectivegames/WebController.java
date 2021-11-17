@@ -1,13 +1,18 @@
 package com.selectivegames.main.selectivegames;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.selectivegames.main.selectivegames.common.RedirectDataModel;
 import com.selectivegames.main.selectivegames.common.ServiceStatus;
@@ -20,6 +25,9 @@ public class WebController {
 	@Autowired
 	private GameService gameService;
 
+	@Value("${external.url}")
+	private String sdplUrl;
+
 	@GetMapping("")
 	public String home(ModelMap model) {
 
@@ -27,11 +35,18 @@ public class WebController {
 		return "online";
 	}
 
-	@GetMapping("/login/{id}")
-	public String login(@PathVariable Long id, ModelMap model) {
+	@GetMapping("login/{id}")
+	public String login(@PathVariable Long id, ModelMap model, HttpSession session) {
 		logger.info("User ID {}", id);
 		model.addAttribute("cats", gameService.getCategoryList());
+		session.setAttribute("user", id);
+		// model.addAttribute("user", id);
 		return "online";
+	}
+
+	@GetMapping("landing")
+	public ModelAndView method(HttpServletResponse httpServletResponse) {
+		return new ModelAndView("redirect:" + sdplUrl);
 	}
 
 	@GetMapping("cat/{id}")
@@ -51,7 +66,7 @@ public class WebController {
 
 	@GetMapping("redirect")
 	public String subRedirect(RedirectDataModel model, ModelMap modelMap) {
-		logger.info("{}", model);
+		logger.info("{}", model.getRc());
 		model = gameService.updateDate(model);
 		gameService.addRedirectLogging(model);
 		if (model.getRc().equalsIgnoreCase(ServiceStatus.CONFIRMED.toString())) {
@@ -67,6 +82,7 @@ public class WebController {
 			modelMap.addAttribute("scope", 4);
 			modelMap.addAttribute("message", gameService.getMessage(4));
 		}
+
 		modelMap.addAttribute("ani", model.getTn());
 		modelMap.addAttribute("service", gameService.getServiceName(model.getCl()));
 		return "process";

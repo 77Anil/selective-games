@@ -63,14 +63,14 @@
 			var swiper = new Swiper('.cusslides', {
 				spaceBetween : 30,
 				autoplay : 4000,
-				slidesPerView : 4,
+				slidesPerView : 2,
 				pagination : {
 					el : '.swiper-pagination',
 					clickable : true,
 				},
 			});
 			var swiper = new Swiper('.playwin .swiper-container', {
-				slidesPerView : 4,
+				slidesPerView : 2,
 				centeredSlides : true,
 				spaceBetween : 5,
 				autoplay : 10000,
